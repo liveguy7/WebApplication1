@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 
 namespace WebApplication1
 {
@@ -17,37 +18,41 @@ namespace WebApplication1
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-                              ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                DeveloperExceptionPageOptions dEPO = new DeveloperExceptionPageOptions()
+                {
+                    SourceCodeLineCount = 1
+                };
+                app.UseDeveloperExceptionPage(dEPO);
+            }
+            else
+            {
+                app.UseExceptionHandler("Error Found!!");
             }
 
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW1: incoming..");
-                await next();
-                logger.LogInformation("MW1: outgoing..");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW2: incoming..");
-                await next();
-                logger.LogInformation("MW2: outgoing..");
-            });
+            DefaultFilesOptions dFO = new DefaultFilesOptions();
+            dFO.DefaultFileNames.Clear();
+            dFO.DefaultFileNames.Add("abc.html");
+            app.UseDefaultFiles(dFO);
+            app.UseStaticFiles();
 
             app.Run(async (context) =>
             {
+                //throw new Exception("Error Found. Please Contact the Admin");
                 await context.Response
-                    .WriteAsync("Jello!");
-                logger.LogInformation("MW3!");
+                    .WriteAsync("Error Found. Please Contact the Admin " + env.EnvironmentName);
+                  
+                
             });
         }
     }
 
 }
+
+
+
 
 
