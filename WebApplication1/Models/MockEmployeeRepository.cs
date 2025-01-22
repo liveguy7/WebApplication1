@@ -22,9 +22,30 @@ namespace WebApplication1.Models
 
         }
 
+        public IEnumerable<Employee> GetAllEmployees()
+        {
+            return _empList;
+
+        }
+
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

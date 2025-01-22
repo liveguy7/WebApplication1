@@ -1,0 +1,47 @@
+﻿@model HomeDetailsViewModel
+
+@{
+    ViewBag.Title = "Employee";
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card" style="width:400px;">
+            <div class="card-header">
+                <h3>@Model.employee.name</h3>
+            </div>
+            <div class="card-body text-center">
+                <img class="card-img-top" src="~/images/space1.jpg" />
+                <h4>Id: @Model.employee.id</h4>
+                <h4>Email: @Model.employee.email</h4>
+                <h4>Department: @Model.employee.department</h4>
+                <h4></h4>
+            </div>
+
+            <div class="card-footer text-center">
+                <a href="#" class="btn btn-primary">Back</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+   
+
+
+
+
+@section scripts {
+    <script src="~/js/customscript.js"></script>
+}
+
+
+
+
+
+

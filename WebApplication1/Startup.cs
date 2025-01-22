@@ -42,8 +42,11 @@ namespace WebApplication1
             //dFO.DefaultFileNames.Add("abc.html");
             //app.UseDefaultFiles();
             app.UseStaticFiles();
+            //app.UseMvc(routes =>
+            //{
+                //routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            //});
             app.UseMvcWithDefaultRoute();
-
             app.Run(async (context) =>
             {
                 //throw new Exception("Error Found. Please Contact the Admin");
