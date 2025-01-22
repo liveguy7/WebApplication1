@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
+using WebApplication1.Models;
 
 namespace WebApplication1
 {
@@ -15,6 +16,9 @@ namespace WebApplication1
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+                       options.EnableEndpointRouting = false);
+            services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
 
         }
 
@@ -30,20 +34,21 @@ namespace WebApplication1
             }
             else
             {
-                app.UseExceptionHandler("Error Found!!");
+                app.UseExceptionHandler("Error Found");
             }
 
-            DefaultFilesOptions dFO = new DefaultFilesOptions();
-            dFO.DefaultFileNames.Clear();
-            dFO.DefaultFileNames.Add("abc.html");
-            app.UseDefaultFiles(dFO);
+            //DefaultFilesOptions dFO = new DefaultFilesOptions();
+            //dFO.DefaultFileNames.Clear();
+            //dFO.DefaultFileNames.Add("abc.html");
+            //app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {
                 //throw new Exception("Error Found. Please Contact the Admin");
                 await context.Response
-                    .WriteAsync("Error Found. Please Contact the Admin " + env.EnvironmentName);
+                    .WriteAsync("Error Found. Please Contact the Admin.");
                   
                 
             });
@@ -51,8 +56,6 @@ namespace WebApplication1
     }
 
 }
-
-
 
 
 
