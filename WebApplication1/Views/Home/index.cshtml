@@ -6,17 +6,17 @@
 
  <div class="card-deck">
      @foreach(var emp in Model) {
-         <div class="card m-3" style="width:400px;">
+         <div class="card m-3" style="width:300px;">
              <div class="card-header">
                  <h3>@emp.name</h3>
              </div>
-             <img class="card-img-top" src="~/images/space1.jpg" style="height:100px; width:100px;" />
+             <img class="card-img-top" src="~/images/space1.jpg" style="height:auto; width:auto;" />
 
              <div class="card-footer text-center">
                 <a asp-controller="home" asp-action="details" asp-route-id="@emp.id"
-                class="btn btn-primary">View</a>
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-primary">Delete</a>
+                class="btn btn-primary m-1">View</a>
+                <a href="#" class="btn btn-primary m-1">Edit</a>
+                <a href="#" class="btn btn-primary m-1">Delete</a>
 
              </div>
          </div>
