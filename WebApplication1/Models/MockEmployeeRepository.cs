@@ -9,9 +9,9 @@ namespace WebApplication1.Models
         {
             _empList = new List<Employee>()
             {
-                new Employee() {id=1, name="Jello", department="HR", email="jello@na.com"},
-                new Employee() {id=2, name="Pan", department="HR", email="pan@na.com"},
-                new Employee() {id=3, name="Han", department="IT", email="han@na.com"}
+                new Employee() {id=1, name="Jello", department=Dept.HR, email="jello@na.com"},
+                new Employee() {id=2, name="Pan", department=Dept.IT, email="pan@na.com"},
+                new Employee() {id=3, name="Han", department=Dept.IT, email="han@na.com"}
 
             };
         }

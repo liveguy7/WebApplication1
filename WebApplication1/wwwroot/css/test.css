@@ -7,9 +7,13 @@ body{
     width: 75px;
 }
 
+#name {
+    width:50px;
+}
 
-
-
+#email {
+    width:50px;
+}
 
 
 

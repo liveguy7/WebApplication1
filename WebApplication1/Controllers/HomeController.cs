@@ -35,8 +35,19 @@ namespace WebApplication1.Controllers
 
         }
 
+        public ViewResult Create()
+        {
+            return View();
+        }
+
     }
 }
+
+
+
+
+
+
 
 
 
