@@ -30,35 +30,35 @@ namespace WebApplication1.Controllers
                 employee = _employeeRepository.GetEmployee(id ?? 1),
                 pageTitle = "Jello Details"
             };
-            
+
             return View(hDVM);
 
         }
 
+        [HttpGet]
         public ViewResult Create()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Create(Employee emp1)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee newEmp = _employeeRepository.Add(emp1);
+
+                return RedirectToAction("details", new
+                {
+                    id = newEmp.id
+                });
+            }
+            return View();
+
+        }
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

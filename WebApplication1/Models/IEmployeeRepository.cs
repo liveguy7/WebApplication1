@@ -6,7 +6,7 @@ namespace WebApplication1.Models
     {
         Employee GetEmployee(int id1);
         IEnumerable<Employee> GetAllEmployees();
-
+        Employee Add(Employee employee);
     }
 
 }

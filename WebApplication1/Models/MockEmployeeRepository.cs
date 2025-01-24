@@ -28,6 +28,14 @@ namespace WebApplication1.Models
 
         }
 
+        public Employee Add(Employee emp1)
+        {
+            emp1.id = _empList.Max(e => e.id) + 1;
+            _empList.Add(emp1);
+
+            return emp1;
+        }
+
 
     }
 }
