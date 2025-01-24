@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using WebApplication1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1
 {
@@ -16,6 +17,10 @@ namespace WebApplication1
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContextPool<AppDbContext>(options =>
+                              options.UseSqlServer(_config.GetConnectionString("WebApplicationDBConnection")));
+                
+
             services.AddMvc(options =>
                        options.EnableEndpointRouting = false);
             services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
