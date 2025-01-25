@@ -36,26 +36,32 @@ namespace WebApplication1.Models
             return emp1;
         }
 
+        public Employee Delete(int id1)
+        {
+            Employee employee = _empList.FirstOrDefault(e => e.id == id1);
+            if(employee != null)
+            {
+                _empList.Remove(employee);
+            }
+            return employee;
+        }
+
+        public Employee Update(Employee employeeChanges)
+        {
+            Employee employee = _empList.FirstOrDefault(e => e.id == employeeChanges.id);
+            if(employee != null)
+            {
+                employee.name = employeeChanges.name;
+                employee.email = employeeChanges.email;
+                employee.department = employeeChanges.department;
+            }
+            return employee;
+            
+        }
+
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
