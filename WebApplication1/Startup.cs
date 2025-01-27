@@ -29,7 +29,7 @@ namespace WebApplication1
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
             {
                 DeveloperExceptionPageOptions dEPO = new DeveloperExceptionPageOptions()
                 {
