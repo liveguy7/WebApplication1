@@ -27,6 +27,8 @@ namespace WebApplication1.Controllers
 
         public ViewResult Details(int? id)
         {
+            //throw new Exception("Error in Details View");
+
             Employee employee = _employeeRepository.GetEmployee(id.Value);
             if(employee == null)
             {
