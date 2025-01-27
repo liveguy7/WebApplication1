@@ -1,11 +1,10 @@
-﻿@model Employee
-@inject IEmployeeRepository _empRepository
+﻿@model EmployeeCreateViewModel
 
 @{
     ViewBag.Title = "Create Employee";
 }
 
-<form asp-controller="home" asp-action="create" method="post">
+<form enctype="multipart/form-data" asp-controller="home" asp-action="create" method="post">
     <div class="mb-3 mt-3">
         <label asp-for="name" class="form-label">Name:</label>
         <input asp-for="name" class="form-control" placeholder="Enter name" style="width:50%;">
@@ -24,11 +23,27 @@
         </select>
         <span asp-validation-for="department" class="text-danger"></span>
     </div>
+    <div class="mb-3 mt-3">
+        <label asp-for="photo" class="form-label">Photo:</label>
+        <div class="custom-file">
+             <input asp-for="photo" class="form-control custom-file-input" style="width:50%;" />
+             <label class="custom-file-label">..</label> 
+       </div>
+    </div>
     <div asp-validation-summary="All" class="text-danger">
 
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-    <div>Total Employees Count: @_empRepository.GetAllEmployees().Count() </div>
+   @section Scripts{
+       <script>
+           $(function(){
+               $('.custom-file-input').on('change', function(){
+                   var fileName = $(this).val().split('\\').pop();
+                   $(this).next('.custom-file-label').html(fileName);
+               })
+           })
+       </script>
+   }
 </form>
 
 

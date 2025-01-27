@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using WebApplication1.Models;
 using WebApplication1.ViewModels;
 
@@ -7,12 +8,13 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository; 
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public HomeController(IEmployeeRepository employeeRepository)
+        public HomeController(IEmployeeRepository employeeRepository, IWebHostEnvironment hostingEnvironment)
         {
             _employeeRepository = employeeRepository;
-
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public ViewResult Index()
@@ -42,16 +44,28 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Employee emp1)
+        public IActionResult Create(EmployeeCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                Employee newEmp = _employeeRepository.Add(emp1);
-
-                return RedirectToAction("details", new
+                string uniqueFileName = null;
+                if(model.photo != null)
                 {
-                    id = newEmp.id
-                });
+                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                Employee newEmp = new Employee
+                {
+                    name = model.name,
+                    email = model.email,
+                    department = model.department,
+                    PhotoPath = uniqueFileName
+
+                };
+                _employeeRepository.Add(newEmp);
+                return RedirectToAction("details", new { id = newEmp.id });
             }
             return View();
 
@@ -59,9 +73,6 @@ namespace WebApplication1.Controllers
 
     }
 }
-
-
-
 
 
 

@@ -3,6 +3,11 @@ body{
     
 }
 
+.imageThumbnail {
+    height: 40px;
+    width: auto;
+}
+
 .btn {
     width: 75px;
 }
