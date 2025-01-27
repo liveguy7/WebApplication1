@@ -39,7 +39,8 @@ namespace WebApplication1
             }
             else
             {
-                app.UseExceptionHandler("Error Found");
+                //app.UseExceptionHandler("Error Found");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
 
             //DefaultFilesOptions dFO = new DefaultFilesOptions();

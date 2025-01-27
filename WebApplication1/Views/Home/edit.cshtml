@@ -1,0 +1,61 @@
+﻿@model EmployeeEditViewModel
+
+@{
+    ViewBag.Title = "Edit Employee";
+}
+
+<form enctype="multipart/form-data" asp-controller="home" asp-action="edit" method="post">
+    <div class="mb-3 mt-3">
+        <input hidden asp-for="id" />
+        <input hidden asp-for="existingphotopath" />
+        <label asp-for="name" class="form-label">Name:</label>
+        <input asp-for="name" class="form-control" placeholder="Enter name" style="width:50%;">
+        <span asp-validation-for="name" class="text-danger"></span>
+    </div>
+    <div class="mb-3 mt-3">
+        <label asp-for="email" class="form-label">Email:</label>
+        <input asp-for="email" class="form-control" placeholder="Enter email" style="width:50%;" />
+        <span asp-validation-for="email" class="text-danger"></span>
+    </div>
+    <div class="mb-3 mt-3">
+        <label asp-for="department" class="form-label">Department</label>
+        <select asp-for="department" class="form-select" style="width:50%;"
+                asp-items="Html.GetEnumSelectList<Dept>()">
+            <option value="">Select Here</option>
+        </select>
+        <span asp-validation-for="department" class="text-danger"></span>
+    </div>
+    <div class="mb-3 mt-3">
+        <label asp-for="photo" class="form-label">Photo:</label>
+        <div class="custom-file">
+            <input asp-for="photo" class="form-control custom-file-input" style="width:50%;" />
+            <label class="custom-file-label">Click Here to Change Photo</label>
+        </div>
+    </div>
+
+    <img class="imageThumbnail" src="~/images/space1.jpg" asp-append-version="true" />
+
+    <div asp-validation-summary="All" class="text-danger">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-controller="home" asp-action="index" class="btn btn-primary">Cancel</a>
+
+    @section Scripts {
+        <script>
+            $(function(){
+                $('.custom-file-input').on('change', function(){
+                    var fileName = $(this).val().split('\\').pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                })
+            })
+        </script>
+    }
+</form>
+
+
+
+
+
+
+
+

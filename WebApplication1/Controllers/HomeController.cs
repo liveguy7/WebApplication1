@@ -27,13 +27,62 @@ namespace WebApplication1.Controllers
 
         public ViewResult Details(int? id)
         {
+            Employee employee = _employeeRepository.GetEmployee(id.Value);
+            if(employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("employeenotfound", id.Value);
+            }
+
             HomeDetailsViewModel hDVM = new HomeDetailsViewModel()
             {
-                employee = _employeeRepository.GetEmployee(id ?? 1),
+                employee = employee,
                 pageTitle = "Jello Details"
             };
 
             return View(hDVM);
+
+        }
+
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            Employee employee = _employeeRepository.GetEmployee(id);
+            EmployeeEditViewModel empEVM = new EmployeeEditViewModel
+            {
+                id = employee.id,
+                name = employee.name,
+                email = employee.email,
+                department = employee.department,
+                existingphotopath = employee.PhotoPath
+            };
+            return View(empEVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EmployeeEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee employee = _employeeRepository.GetEmployee(model.id);
+                employee.name = model.name;
+                employee.email = model.email;
+                employee.department = model.department;
+
+                string uniqueFileName = ProcessUploadedFile(model);
+
+                Employee newEmp = new Employee
+                {
+                    name = model.name,
+                    email = model.email,
+                    department = model.department,
+                    PhotoPath = uniqueFileName
+
+                };
+                _employeeRepository.Update(employee);
+                return RedirectToAction("index");
+            }
+            return View();
 
         }
 
@@ -48,14 +97,8 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
-                if(model.photo != null)
-                {
-                    string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    model.photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                }
+                string uniqueFileName = ProcessUploadedFile(model);
+     
                 Employee newEmp = new Employee
                 {
                     name = model.name,
@@ -71,8 +114,32 @@ namespace WebApplication1.Controllers
 
         }
 
+        private string ProcessUploadedFile(EmployeeCreateViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.photo != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                model.photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
+            return uniqueFileName;
+        }
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

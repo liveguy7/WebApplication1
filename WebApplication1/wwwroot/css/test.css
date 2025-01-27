@@ -6,6 +6,7 @@ body{
 .imageThumbnail {
     height: 40px;
     width: auto;
+    align-content:center;
 }
 
 .btn {
