@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication1
 {
@@ -19,7 +20,14 @@ namespace WebApplication1
         {
             services.AddDbContextPool<AppDbContext>(options =>
                               options.UseSqlServer(_config.GetConnectionString("WebApplicationDBConnection")));
-                
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    //options.Password.RequiredLength = 10;
+            //    //options.Password.RequireNonAlphanumeric = false;
+
+            //});
 
             services.AddMvc(options =>
                        options.EnableEndpointRouting = false);
@@ -29,7 +37,7 @@ namespace WebApplication1
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (!env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 DeveloperExceptionPageOptions dEPO = new DeveloperExceptionPageOptions()
                 {
@@ -48,6 +56,7 @@ namespace WebApplication1
             //dFO.DefaultFileNames.Add("abc.html");
             //app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseAuthentication();
             //app.UseMvc(routes =>
             //{
                 //routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
